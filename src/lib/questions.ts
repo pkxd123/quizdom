@@ -242,7 +242,7 @@ export const NUMERICAL_QUESTIONS: NumericalQuestion[] = [
   {
     id: "num_1",
     type: "numerical",
-    text: "Ve kterém roce byl postaven Karlův most v Praze?",
+    text: "Ve kterém roce byl položen základní kámen Karlova mostu v Praze?",
     unit: "rok",
     correctValue: 1357,
     tolerance: 10,

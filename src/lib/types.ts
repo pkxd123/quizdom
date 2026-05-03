@@ -27,6 +27,7 @@ export interface Player {
   turnsRemaining: number;
   score: number;
   territoriesOwned: number;
+  correctAnswers: number; // tiebreaker: total correct answers given
   isHost: boolean;
 }
 

@@ -49,8 +49,11 @@ export default function GameEndModal({ winner, players, onPlayAgain }: GameEndMo
                 style={{ background: COLOR_HEX[p.color] }}
               />
               <span className="flex-1 text-white font-medium">{p.name}</span>
-              <span className="text-gray-300 text-sm">
+              <span className="text-gray-300 text-sm mr-2">
                 🗺️ {p.territoriesOwned}
+              </span>
+              <span className="text-gray-400 text-xs">
+                ✅ {p.correctAnswers}
               </span>
             </div>
           ))}

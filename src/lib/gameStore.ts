@@ -48,9 +48,15 @@ function isGameOver(game: GameState): boolean {
 function computeWinner(game: GameState): string {
   let best: Player | null = null;
   for (const p of game.players) {
-    if (!best || p.territoriesOwned > best.territoriesOwned) {
+    if (!best) {
       best = p;
-    } else if (p.territoriesOwned === best.territoriesOwned && p.score > best.score) {
+    } else if (p.territoriesOwned > best.territoriesOwned) {
+      best = p;
+    } else if (
+      p.territoriesOwned === best.territoriesOwned &&
+      p.correctAnswers > best.correctAnswers
+    ) {
+      // Tiebreaker: player with more correct answers wins
       best = p;
     }
   }
@@ -89,6 +95,7 @@ export function createGame(
     turnsRemaining: roundsPerPlayer,
     score: 0,
     territoriesOwned: 0,
+    correctAnswers: 0,
     isHost: true,
   };
 
@@ -132,6 +139,7 @@ export function joinGame(
     turnsRemaining: game.roundsPerPlayer,
     score: 0,
     territoriesOwned: 0,
+    correctAnswers: 0,
     isHost: false,
   });
 
@@ -225,6 +233,7 @@ export function answerQuestion(
   if (correct) {
     territory.ownerId = playerId;
     captured = true;
+    currentPlayer.correctAnswers++;
   }
 
   // Build a human-readable correct answer string
