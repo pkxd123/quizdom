@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { attackTerritory } from "@/lib/gameStore";
+import { attackTerritory, purgeStaleGames } from "@/lib/gameStore";
 
 interface Params {
   params: { gameId: string };
 }
 
 export async function POST(req: NextRequest, { params }: Params) {
+  purgeStaleGames();
   try {
     const body = await req.json();
     const { playerId, territoryId } = body;

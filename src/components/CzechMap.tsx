@@ -29,7 +29,7 @@ const TERRITORY_LABELS_DISPLAY: Record<string, string> = {
   jihomoravsky: "Jihomor.",
   olomoucky: "Olomouc",
   zlinsky: "Zlínský",
-  moravskoslezsky: "Msl.",
+  moravskoslezsky: "M.Slez.",
 };
 
 function getLabelFontSize(territoryId: string): string {

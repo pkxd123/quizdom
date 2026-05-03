@@ -6,7 +6,14 @@ import { getRandomQuestion, getAttackQuestion, evaluateAnswer } from "./question
 import { randomInt } from "crypto";
 
 // ---------------------------------------------------------------------------
-// In-memory singleton store – persists across hot-reloads in Next.js dev mode
+// In-memory singleton store – persists across hot-reloads in Next.js dev mode.
+//
+// ⚠️  SERVERLESS LIMITATION: This store lives in process memory. On serverless
+// platforms (Vercel, AWS Lambda) each function invocation may start a fresh
+// process, so different requests can see different stores. This is acceptable
+// for local development. For production multi-player use, replace this store
+// with an external data store such as Vercel KV (Redis), Supabase, or
+// PlanetScale.
 // ---------------------------------------------------------------------------
 
 declare global {

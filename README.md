@@ -80,7 +80,7 @@ Otevři prohlížeč na **http://localhost:3000** – hra je připravena!
 ## 📤 Nahrání přes GitHub Desktop
 
 1. Otevři **GitHub Desktop**
-2. Zvolte **File → Add local repository** a vyber složku `quizdom`
+2. Vyber **File → Add local repository** a vyber složku `quizdom`
 3. Proveď změny v kódu
 4. V GitHub Desktop zadej **Summary** (název commitu) a klikni **Commit to main**
 5. Klikni **Push origin**

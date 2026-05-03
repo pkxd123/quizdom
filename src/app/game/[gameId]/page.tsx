@@ -251,8 +251,12 @@ export default function GamePage() {
                   disabled={game.players.length < 1}
                   className="px-8 py-3 rounded-xl font-bold text-white bg-green-600 hover:bg-green-500 disabled:opacity-50 transition-colors"
                 >
-                  🚀 Spustit hru ({game.players.length} hráč
-                  {game.players.length === 1 ? "" : "e/ů"})
+                  🚀 Spustit hru ({game.players.length}{" "}
+                  {game.players.length === 1
+                    ? "hráč"
+                    : game.players.length <= 4
+                    ? "hráči"
+                    : "hráčů"})
                 </button>
               )}
               {!myPlayer?.isHost && (

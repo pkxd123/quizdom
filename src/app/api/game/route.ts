@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createGame } from "@/lib/gameStore";
+import { createGame, purgeStaleGames } from "@/lib/gameStore";
 
 export async function POST(req: NextRequest) {
+  purgeStaleGames();
   try {
     const body = await req.json();
     const { playerName, roundsPerPlayer, maxPlayers } = body;
