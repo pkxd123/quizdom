@@ -3,6 +3,8 @@ import { PLAYER_COLORS } from "./types";
 import { getInitialTerritories } from "./territories";
 import { getRandomQuestion, getAttackQuestion, evaluateAnswer } from "./questions";
 
+import { randomInt } from "crypto";
+
 // ---------------------------------------------------------------------------
 // In-memory singleton store – persists across hot-reloads in Next.js dev mode
 // ---------------------------------------------------------------------------
@@ -19,11 +21,11 @@ const store: Map<string, GameState> =
 // Helpers
 // ---------------------------------------------------------------------------
 
-function generateId(length = 6): string {
+function generateId(length: number): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let id = "";
   for (let i = 0; i < length; i++) {
-    id += chars[Math.floor(Math.random() * chars.length)];
+    id += chars[randomInt(chars.length)];
   }
   return id;
 }

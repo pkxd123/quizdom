@@ -1,5 +1,3 @@
-"use client";
-
 import { TERRITORY_PATHS, TERRITORY_LABELS } from "@/lib/territories";
 import type { Territory, Player } from "@/lib/types";
 import { COLOR_HEX } from "@/lib/types";
@@ -14,8 +12,31 @@ interface CzechMapProps {
 }
 
 const UNCLAIMED_COLOR = "#374151"; // gray-700
-const UNCLAIMED_HOVER = "#4b5563"; // gray-600
 const BORDER_COLOR = "#1f2937"; // gray-800
+
+// Abbreviated display names for SVG labels (space-constrained regions)
+const TERRITORY_LABELS_DISPLAY: Record<string, string> = {
+  karlovarsky: "Karlovy V.",
+  ustecky: "Ústecký",
+  liberecky: "Liberec",
+  kralovehradecky: "K.Hrad.",
+  pardubicky: "Pardub.",
+  stredocesky: "Středočes.",
+  praha: "Praha",
+  plzensky: "Plzeňský",
+  jihocesky: "Jihočes.",
+  vysocina: "Vysočina",
+  jihomoravsky: "Jihomor.",
+  olomoucky: "Olomouc",
+  zlinsky: "Zlínský",
+  moravskoslezsky: "Msl.",
+};
+
+function getLabelFontSize(territoryId: string): string {
+  if (territoryId === "praha") return "8";
+  if (territoryId === "liberecky") return "9";
+  return "10";
+}
 
 function getPlayerColor(territory: Territory, players: Player[]): string {
   if (!territory.ownerId) return UNCLAIMED_COLOR;
@@ -76,6 +97,8 @@ export default function CzechMap({
           const clickable = isClickable(territory);
           const ownerName = getOwnerName(territory);
           const label = TERRITORY_LABELS[territory.id];
+          const labelText = TERRITORY_LABELS_DISPLAY[territory.id] ?? territory.name;
+          const fontSize = getLabelFontSize(territory.id);
 
           return (
             <g key={territory.id}>
@@ -106,7 +129,7 @@ export default function CzechMap({
                   y={label.y}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  fontSize={territory.id === "praha" ? "8" : territory.id === "liberecky" ? "9" : "10"}
+                  fontSize={fontSize}
                   fontWeight="600"
                   fill="white"
                   style={{
@@ -116,33 +139,7 @@ export default function CzechMap({
                   }}
                   className="select-none"
                 >
-                  {territory.id === "kralovehradecky"
-                    ? "K.Hrad."
-                    : territory.id === "moravskoslezsky"
-                    ? "Msl."
-                    : territory.id === "jihomoravsky"
-                    ? "Jihomor."
-                    : territory.id === "stredocesky"
-                    ? "Středočes."
-                    : territory.id === "jihocesky"
-                    ? "Jihočes."
-                    : territory.id === "pardubicky"
-                    ? "Pardub."
-                    : territory.id === "karlovarsky"
-                    ? "Karlovy V."
-                    : territory.id === "liberecky"
-                    ? "Liberec"
-                    : territory.id === "vysocina"
-                    ? "Vysočina"
-                    : territory.id === "olomoucky"
-                    ? "Olomouc"
-                    : territory.id === "plzensky"
-                    ? "Plzeňský"
-                    : territory.id === "ustecky"
-                    ? "Ústecký"
-                    : territory.id === "zlinsky"
-                    ? "Zlínský"
-                    : territory.name}
+                  {labelText}
                 </text>
               )}
             </g>

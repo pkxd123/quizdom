@@ -27,6 +27,7 @@ export default function GamePage() {
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const feedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMounted = useRef(true);
 
   // Load my player ID from localStorage
@@ -68,6 +69,7 @@ export default function GamePage() {
     return () => {
       isMounted.current = false;
       if (pollRef.current) clearInterval(pollRef.current);
+      if (feedbackTimeoutRef.current) clearTimeout(feedbackTimeoutRef.current);
     };
   }, [fetchGame]);
 
@@ -131,7 +133,7 @@ export default function GamePage() {
       setPendingAction(null);
 
       // Auto-dismiss feedback after 2.5 seconds then refresh
-      setTimeout(async () => {
+      feedbackTimeoutRef.current = setTimeout(async () => {
         if (isMounted.current) {
           setAnswerFeedback(null);
           await fetchGame();

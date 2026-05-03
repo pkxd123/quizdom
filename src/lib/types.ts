@@ -53,7 +53,7 @@ export interface NumericalQuestion {
   text: string;
   unit: string;
   correctValue: number;
-  tolerance: number; // absolute tolerance (within this range = correct)
+  tolerance: number; // ± tolerance: answer within [correctValue - tolerance, correctValue + tolerance] is accepted
   difficulty: "easy" | "medium" | "hard";
 }
 
