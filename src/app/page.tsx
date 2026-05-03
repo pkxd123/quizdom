@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 export default function HomePage() {
@@ -11,6 +11,11 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [mode, setMode] = useState<"home" | "create" | "join">("home");
+
+  const handleGoBack = useCallback(() => {
+    setMode("home");
+    setError("");
+  }, []);
 
   const handleCreate = async () => {
     if (!playerName.trim()) {
@@ -104,7 +109,7 @@ export default function HomePage() {
         {mode === "create" && (
           <div className="flex flex-col gap-4">
             <button
-              onClick={() => { setMode("home"); setError(""); }}
+              onClick={handleGoBack}
               className="text-gray-400 hover:text-white text-sm flex items-center gap-1 transition-colors"
             >
               ← Zpět
@@ -162,7 +167,7 @@ export default function HomePage() {
         {mode === "join" && (
           <div className="flex flex-col gap-4">
             <button
-              onClick={() => { setMode("home"); setError(""); }}
+              onClick={handleGoBack}
               className="text-gray-400 hover:text-white text-sm flex items-center gap-1 transition-colors"
             >
               ← Zpět

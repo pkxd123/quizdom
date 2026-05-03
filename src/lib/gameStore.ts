@@ -221,12 +221,8 @@ export function answerQuestion(
 
   let captured = false;
   if (correct) {
-    const previousOwnerId = territory.ownerId;
     territory.ownerId = playerId;
     captured = true;
-
-    // Remove territory from previous owner's count (handled by recompute)
-    void previousOwnerId;
   }
 
   // Build a human-readable correct answer string
