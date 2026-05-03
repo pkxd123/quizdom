@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getGame, joinGame, startGame, purgeStaleGames } from "@/lib/gameStore";
 
 interface Params {
-  params: { gameId: string };
+  params: Promise<{ gameId: string }>;
 }
 
 // GET /api/game/[gameId] – poll game state
 export async function GET(_req: NextRequest, { params }: Params) {
   purgeStaleGames();
-  const game = getGame(params.gameId);
+  const { gameId } = await params;
+  const game = getGame(gameId);
   if (!game) {
     return NextResponse.json({ error: "Hra nenalezena." }, { status: 404 });
   }
@@ -17,6 +18,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
 
 // POST /api/game/[gameId] – join or start
 export async function POST(req: NextRequest, { params }: Params) {
+  const { gameId } = await params;
   try {
     const body = await req.json();
     const { action, playerName, playerId } = body;
@@ -25,7 +27,7 @@ export async function POST(req: NextRequest, { params }: Params) {
       if (!playerName || typeof playerName !== "string") {
         return NextResponse.json({ error: "Zadej jméno hráče." }, { status: 400 });
       }
-      const result = joinGame(params.gameId, playerName.trim());
+      const result = joinGame(gameId, playerName.trim());
       if ("error" in result) {
         return NextResponse.json(result, { status: 400 });
       }
@@ -36,7 +38,7 @@ export async function POST(req: NextRequest, { params }: Params) {
       if (!playerId) {
         return NextResponse.json({ error: "Chybí playerId." }, { status: 400 });
       }
-      const result = startGame(params.gameId, playerId);
+      const result = startGame(gameId, playerId);
       if (!result.success) {
         return NextResponse.json(result, { status: 400 });
       }

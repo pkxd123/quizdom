@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { answerQuestion, purgeStaleGames } from "@/lib/gameStore";
 
 interface Params {
-  params: { gameId: string };
+  params: Promise<{ gameId: string }>;
 }
 
 export async function POST(req: NextRequest, { params }: Params) {
   purgeStaleGames();
+  const { gameId } = await params;
   try {
     const body = await req.json();
     const { playerId, answer, responseTimeMs } = body;
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest, { params }: Params) {
     }
 
     const result = answerQuestion(
-      params.gameId,
+      gameId,
       playerId,
       answer,
       responseTimeMs ?? 0

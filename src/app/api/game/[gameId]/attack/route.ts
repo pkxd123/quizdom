@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { attackTerritory, purgeStaleGames } from "@/lib/gameStore";
 
 interface Params {
-  params: { gameId: string };
+  params: Promise<{ gameId: string }>;
 }
 
 export async function POST(req: NextRequest, { params }: Params) {
   purgeStaleGames();
+  const { gameId } = await params;
   try {
     const body = await req.json();
     const { playerId, territoryId } = body;
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest, { params }: Params) {
       );
     }
 
-    const result = attackTerritory(params.gameId, playerId, territoryId);
+    const result = attackTerritory(gameId, playerId, territoryId);
     if (!result.success) {
       return NextResponse.json(result, { status: 400 });
     }
